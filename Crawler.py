@@ -1,5 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
+
+def Get_Open_rank(domain):
+    import json
+    key = 'K5MFJyX7+tfsHvDf2yEsA2Ct94st53CrFf7IFghufWI'
+    url = 'lol' + domain
+    headers = {"User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'}
+    page = requests.get(url, headers=headers)
+    soup= BeautifulSoup(page.content, 'html.parser')
+    Dictionary=json.loads(str(soup))
+    OpenRank = Dictionary.get("data").get(domain).get("openrank")
+    print(OpenRank)
+    return OpenRank
         
 def Href_from_URL(URL,urls):
     headers = {"User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'}
@@ -11,22 +23,23 @@ def Href_from_URL(URL,urls):
         #TODO Check urls if duplicit
         if url in urls != True:
             urls.append(url)
-            
-        CSV_format(urls)
+            print("nigga")
+        #CSV_format(urls)
     else:
-        CSV_format(urls)
-
+        #CSV_format(urls)
+        print("Hellyeah")
 
 def Domain_scrapper(url):
     import re
     domain = re.split('\.',url)[1]
     #TODO test for subdomain :/
-    return domain
+    domain_with_fix = domain +"."+re.split('\.',url)[2]
+    return domain, domain_with_fix
 
 def Loop_url_fetcher(urls, index,domain):
-    for url in urls(len(urls) - index, len(urls)):
+    for url in urls[int(len(urls) - index), len(urls)]: #Doesn't work
         if domain in url == True:
-            urls = Href_from_URL(URL, urls)
+            urls = Href_from_URL(url, urls)
             #Needs redesign 
             
         '''
@@ -38,11 +51,12 @@ def Loop_url_fetcher(urls, index,domain):
 
 def Start():
     #input
-    urls[]
+    urls = []
     url = input("URL?")
-    #TODO domain rank checker and other fluffy things
+        
+    domain, domain_with_fix=Domain_scrapper(url)
+    rank = Get_Open_rank(domain_with_fix)
     urls.append([url,rank,"",""])
-    domain=Domain_srapper(url)
     Loop_url_fetcher(urls,1,domain)
         
 if __name__ == "__main__":
