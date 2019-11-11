@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 def Get_Open_rank(domain):
     import json
     key = 'K5MFJyX7+tfsHvDf2yEsA2Ct94st53CrFf7IFghufWI'
-    url = 'lol' + domain
+    url = 'Your Key' + domain
     headers = {"User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'}
     page = requests.get(url, headers=headers)
     soup= BeautifulSoup(page.content, 'html.parser')
