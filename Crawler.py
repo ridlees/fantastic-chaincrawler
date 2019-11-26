@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 def Get_Open_rank(domain):
     import json
     key = 'K5MFJyX7+tfsHvDf2yEsA2Ct94st53CrFf7IFghufWI'
-    url = 'Your Key' + domain
+    url = 'https://api.openrank.io/?key=K5MFJyX7+tfsHvDf2yEsA2Ct94st53CrFf7IFghufWI&d=' + domain
     headers = {"User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'}
     page = requests.get(url, headers=headers)
     soup= BeautifulSoup(page.content, 'html.parser')
@@ -20,10 +20,10 @@ def Href_from_URL(URL,urls):
     links = soup.findAll("a")
     for link in links:
         url = link.get("href")
-        #TODO Check urls if duplicit
-        if url in urls != True:
-            urls.append(url)
-            print("nigga")
+        print(url)
+        #if url in urls != True:
+            #urls.append(url)
+            #print("nigga")
         #CSV_format(urls)
     else:
         #CSV_format(urls)
@@ -57,7 +57,8 @@ def Start():
     domain, domain_with_fix=Domain_scrapper(url)
     rank = Get_Open_rank(domain_with_fix)
     urls.append([url,rank,"",""])
-    Loop_url_fetcher(urls,1,domain)
+    Href_from_URL(url, urls)
+    #Loop_url_fetcher(urls,1,domain)
         
 if __name__ == "__main__":
     Start()
