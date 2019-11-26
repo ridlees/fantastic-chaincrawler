@@ -24,16 +24,22 @@ def Href_from_URL(URL,urls):
             title = link.get("title", "notitle")
             text = link.text
             urls.append([link.get("href"),ref,title,text])
-            
 #gets all links from page, gets the ref type, title and text
-
     return urls
+
+def Robots_for_domain(URL,urls):
+    headers = {"User-Agent":'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'}
+    page = requests.get(URL+"/robots.txt", headers=headers)
+    soup= BeautifulSoup(page.content, 'html.parser')
+    return soup
+
 def Start():
     #input
     urls = []
     url = input("URL? \n")
     #needs to be in https://example.com
     print(Href_from_URL(url,urls))
+    #print(Robots_for_domain(url,urls))
     
 if __name__ == "__main__":
     Start()
