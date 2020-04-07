@@ -11,6 +11,7 @@ def Get_Open_rank(domain):
     OpenRank = Dictionary.get("data").get(domain).get("openrank")
     print(OpenRank)
     return OpenRank
+
 #working rank chacker
 
 def Href_from_URL(URL,urls):
@@ -20,12 +21,13 @@ def Href_from_URL(URL,urls):
     links = soup.findAll("a")
     for link in links:
         if link.get("href", 1) != 1:
+            #if link.get("href") in urls == False: 
             ref = link.get("ref", "DoFollow")
-            title = link.get("title", "notitle")
+            title = link.get("title", "no-title")
             text = link.text
             urls.append([link.get("href"),ref,title,text])
             #gets all links from page, gets the ref type, title and text
-            #TODO check for duplicity in urls
+            #TODO check for duplicity in urls (test the code)
     return urls
 
 def Robots_for_domain(URL,urls):
@@ -44,15 +46,19 @@ def domainconvert(url):
     return urlwithhttps,urlwithhttp,domain
     # returns domain for domain check and both addresses (using https and http)
 
+def sitemap(url):
+    page = requests.get(url+"/sitemap.xml")
+    soup= BeautifulSoup(page.content, 'html.parser')
+    print(soup)
 def Start():
     #input
     urls = []
     url = input("URL? \n")
-    urlwithhttps,urlwithhttp,domain = domainconvertion(url)
+    urlwithhttps,urlwithhttp,domain = domainconvert(url)
     print(url,urlwithhttps,urlwithhttp,domain)
-    #Get_Open_rank(url) -> gets open rank for page
-    #print(Href_from_URL(url,urls)) -> gets all urls on page
-    #print(Robots_for_domain(url,urls)) -> gets domain for the page
+    Get_Open_rank(url) #-> gets open rank for page
+    print(Href_from_URL(urlwithhttp,urls)) #-> gets all urls on page
+    #print(Robots_for_domain(url,urls)) #-> gets robots.txt for the page
     
 if __name__ == "__main__":
     Start()
